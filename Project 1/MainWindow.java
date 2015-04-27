@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -117,7 +118,14 @@ public class MainWindow extends JFrame {
 		this.setVisible(true);
 	}
 	
-	public static void main(String[] args) {
-		new MainWindow("cat");
+	public static void main(String[] args) 
+   {
+      //System.out.print("Enter a word for someone to guess: ");
+      //Scanner in = new Scanner(System.in);
+      //String guessWord = in.next();
+      //in.close();
+      Dictionary wordDict = new Dictionary("C:\\Users\\Andrew\\Documents\\CPE102\\Project 1\\dictionary.txt");
+      
+		new MainWindow(wordDict.randomWord());
 	}
 }
