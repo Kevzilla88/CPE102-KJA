@@ -5,6 +5,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 
 public class Dictionary
 {
@@ -13,15 +14,16 @@ public class Dictionary
    Random wordPicker;
    Scanner fileRead;
    
-   public Dictionary(String aFilePath)
+   public Dictionary(String aFilePath) throws FileNotFoundException
    {
       dict = new ArrayList<String>();
-      fileRead = new Scanner(aFilePath);
+      fileRead = new Scanner(new File(aFilePath));
       wordPicker = new Random();
    }
    
    public void buildDictionary()
    {
+      fileRead.useDelimiter(" ");
       while(fileRead.hasNext())
       {
          dict.add(fileRead.next());
@@ -30,8 +32,8 @@ public class Dictionary
    
    public String randomWord()
    {
-      int wordIndex = (int) Math.random()*dict.size();
-      String word = dict.get(wordIndex);
+      double wordIndex = Math.random()*dict.size();      
+      String word = dict.get((int) wordIndex);
       return word;
    }
 }

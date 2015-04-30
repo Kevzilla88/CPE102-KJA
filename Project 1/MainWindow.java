@@ -16,6 +16,8 @@ import java.util.Random;
 import java.lang.String;
 import java.lang.Character;
 
+import java.io.FileNotFoundException;
+
 public class MainWindow extends JFrame {
 	
 	private int remainingGuesses;
@@ -121,10 +123,10 @@ public class MainWindow extends JFrame {
 					
 					if(guessed.contains(text))
 					{
-						System.out.println("That letter has been guessed already!");
+						status.setText("That letter has been guessed already!");
 					}
 					else{
-						
+						status.setText("You have "+remainingGuesses+" guesses remaining.");
 						boolean guessFound = false;					
 						guessed.add(text);
 						
@@ -188,14 +190,16 @@ public class MainWindow extends JFrame {
 		this.setVisible(true);
 	}
 	
-	public static void main(String[] args) 
+	public static void main(String[] args) throws FileNotFoundException
    {
       //System.out.print("Enter a word for someone to guess: ");
       //Scanner in = new Scanner(System.in);
       //String guessWord = in.next();
+      //System.out.print("How many hints would you like? ");
+      //int hintNum = in.nextInt();
       //in.close();
-      Dictionary wordDict = new Dictionary("C:\\Users\\Andrew\\Documents\\CPE102\\Project 1\\dictionary.txt");
-      
+      Dictionary wordDict = new Dictionary("dictionary.txt");
+      wordDict.buildDictionary();
 		new MainWindow(wordDict.randomWord(), 0);
    }
 }
