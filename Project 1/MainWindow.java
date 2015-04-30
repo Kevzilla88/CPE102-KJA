@@ -9,12 +9,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import java.util.ArrayList;
+
 public class MainWindow extends JFrame {
 	
 	private int remainingGuesses;
 	private String wrongGuesses;
 	private String word;
 	private String visible;
+	private ArrayList<String> guessed = new ArrayList<String>();
 
 	public MainWindow(String toGuess) {
 		remainingGuesses = 10;
@@ -57,50 +60,59 @@ public class MainWindow extends JFrame {
 				
 				if(text.length()  == 1 && text.matches("[a-z]")) {
 					
-					boolean guessFound = false;
-					
-					for(int i = 0; i < word.length(); ++i) {
-						if(text.charAt(0) == word.charAt(i)) {
-							guessFound = true;
-							
-							String newVisible = "";
-							for(int j = 0; j < visible.length(); ++j) {
-								if(j == (i*2)) {
-									newVisible += word.charAt(i);
+					if(guessed.contains(text))
+					{
+						System.out.println("That letter has been guessed already!");
+					}
+					else{
+						
+						boolean guessFound = false;					
+						guessed.add(text);
+						
+						for(int i = 0; i < word.length(); ++i) {
+							if(text.charAt(0) == word.charAt(i)) {
+								guessFound = true;
+								
+								String newVisible = "";
+								for(int j = 0; j < visible.length(); ++j) {
+									if(j == (i*2)) {
+										newVisible += word.charAt(i);
+									}
+									else {
+										newVisible += visible.charAt(j);
+									}
 								}
-								else {
-									newVisible += visible.charAt(j);
-								}
+								visible = newVisible;
+								visibleLabel.setText(visible);
 							}
-							visible = newVisible;
-							visibleLabel.setText(visible);
-						}
-					}
-					
-					if(!guessFound) {
-						if(--remainingGuesses >= 0) {
-							status.setText("You have "+remainingGuesses+" guesses remaining");
-							wrongGuesses += text+" ";
-							wrong.setText("Wrong guesses so far: "+wrongGuesses);
-							hf.set();
-						}
-						else {
-							status.setText("You lost: the word was "+word);
-							input.setEnabled(false);
-						}
-					}
-					else {
-						String actualVisible = "";
-						for(int i = 0; i < visible.length(); i+=2) {
-							actualVisible += visible.charAt(i);
 						}
 						
-						if(actualVisible.equals(word)) {
-							status.setText("Congratulations, you have won!");
-							input.setEnabled(false);
+						if(!guessFound) {
+							if(--remainingGuesses >= 0) {
+								status.setText("You have "+remainingGuesses+" guesses remaining");
+								wrongGuesses += text+" ";
+								wrong.setText("Wrong guesses so far: "+wrongGuesses);
+								hf.set();
+							}
+							else {
+								hf.set();
+								status.setText("You lost: the word was "+word);
+								input.setEnabled(false);
+							}
 						}
-					}
+						else {
+							String actualVisible = "";
+							for(int i = 0; i < visible.length(); i+=2) {
+								actualVisible += visible.charAt(i);
+							}
+							
+							if(actualVisible.equals(word)) {
+								status.setText("Congratulations, you have won!");
+								input.setEnabled(false);
+							}
+						}
 					
+					}
 				}
 				else {
 					System.out.println("Invalid input!");
