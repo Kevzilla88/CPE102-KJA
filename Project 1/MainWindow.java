@@ -10,6 +10,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import java.lang.String;
+import java.lang.Character;
 
 public class MainWindow extends JFrame {
 	
@@ -18,16 +22,39 @@ public class MainWindow extends JFrame {
 	private String word;
 	private String visible;
 	private ArrayList<String> guessed = new ArrayList<String>();
+	private int numberHints;
+	private char tempVisible[];
+	private String tempGuess;
+	private int hintLoc;
+	private ArrayList<Integer> intGen = new ArrayList<Integer>();
+	private Random rand = new Random();
 
-	public MainWindow(String toGuess) {
+	public MainWindow(String toGuess,int hints) {
 		remainingGuesses = 10;
 		wrongGuesses = "";
 		word = toGuess;
-
+		numberHints = hints;
+		
 		visible = "";
 
 		for(int i = 0; i < word.length(); ++i) {
 			visible += "_ ";
+		}
+		if(numberHints > 0)
+		{
+			tempVisible = visible.toCharArray();
+			for(int i=0;i<numberHints;i++)
+			{
+				hintLoc = rand.nextInt(word.length());
+				while(intGen.contains(hintLoc)){
+					hintLoc = rand.nextInt(word.length());
+				}
+				intGen.add(hintLoc);
+				tempVisible[2*hintLoc] = word.charAt(hintLoc);
+				tempGuess = "" + word.charAt(hintLoc);
+				guessed.add(tempGuess);
+			}
+			visible = new String(tempVisible);
 		}
 
 		JPanel corePanel = new JPanel();
@@ -129,7 +156,8 @@ public class MainWindow extends JFrame {
 		this.setVisible(true);
 	}
 	
+
 	public static void main(String[] args) {
-		new MainWindow("cat");
+		new MainWindow("catastrophe",4);
 	}
 }
