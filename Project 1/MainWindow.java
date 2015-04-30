@@ -26,7 +26,8 @@ public class MainWindow extends JFrame {
 	private char tempVisible[];
 	private String tempGuess;
 	private int hintLoc;
-	private int tempHintLoc;
+	private int tempHintLoc=0;
+	private char tempChar;
 	private int c=0;
 	private ArrayList<Integer> intGen = new ArrayList<Integer>();
 	private Random rand = new Random();
@@ -69,14 +70,18 @@ public class MainWindow extends JFrame {
 				{
 					numberHints-=c-1;
 				}
-				if(numberHints<=i)
-				{
-					tempVisible[2*tempHintLoc] = '_';
-				}
 				if(c == 1)
 				{
 					tempHintLoc = hintLoc;
 				}
+				if(numberHints<=i)
+				{
+					tempGuess = "" + tempVisible[2*tempHintLoc];
+					guessed.remove(tempGuess);
+					tempVisible[2*tempHintLoc] = '_';
+					
+				}
+				
 				tempGuess = "" + word.charAt(hintLoc);
 				guessed.add(tempGuess);
 			}
