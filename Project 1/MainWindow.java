@@ -26,6 +26,8 @@ public class MainWindow extends JFrame {
 	private char tempVisible[];
 	private String tempGuess;
 	private int hintLoc;
+	private int tempHintLoc;
+	private int c=0;
 	private ArrayList<Integer> intGen = new ArrayList<Integer>();
 	private Random rand = new Random();
 
@@ -40,6 +42,8 @@ public class MainWindow extends JFrame {
 		for(int i = 0; i < word.length(); ++i) {
 			visible += "_ ";
 		}
+		
+		//Hints Feature
 		if(numberHints > 0)
 		{
 			tempVisible = visible.toCharArray();
@@ -51,6 +55,28 @@ public class MainWindow extends JFrame {
 				}
 				intGen.add(hintLoc);
 				tempVisible[2*hintLoc] = word.charAt(hintLoc);
+				c = 0;
+				for(int j=0;j<word.length();j++)
+				{
+					if(word.charAt(hintLoc) == word.charAt(j))
+					{
+						tempVisible[2*j] = word.charAt(j);
+						intGen.add(j);
+						c++;
+					}
+				}
+				if(c>1)
+				{
+					numberHints-=c-1;
+				}
+				if(numberHints<=i)
+				{
+					tempVisible[2*tempHintLoc] = '_';
+				}
+				if(c == 1)
+				{
+					tempHintLoc = hintLoc;
+				}
 				tempGuess = "" + word.charAt(hintLoc);
 				guessed.add(tempGuess);
 			}
@@ -161,3 +187,4 @@ public class MainWindow extends JFrame {
 		new MainWindow("catastrophe",4);
 	}
 }
+
