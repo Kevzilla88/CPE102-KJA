@@ -14,6 +14,10 @@ public class Dictionary
    Random wordPicker;
    Scanner fileRead;
    
+   /**
+   A dictionary that reads words from a text file.
+   @param aFilePath String that specifies the relative location of a text file
+   */
    public Dictionary(String aFilePath) throws FileNotFoundException
    {
       dict = new ArrayList<String>();
@@ -21,6 +25,9 @@ public class Dictionary
       wordPicker = new Random();
    }
    
+   /**
+   Adds all of the words from the specified file to a dictionary. Words in file must be separated only by a single space.
+   */
    public void buildDictionary()
    {
       fileRead.useDelimiter(" ");
@@ -30,6 +37,10 @@ public class Dictionary
       }
    }
    
+   /**
+   Chooses a random word out of all of the words in the dictionary with pseudorandom distribution (using Math.random).
+   @return A random word
+   */
    public String randomWord()
    {
       double wordIndex = Math.random()*dict.size();      
